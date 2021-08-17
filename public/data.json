@@ -1,0 +1,30 @@
+{
+	"todo": [
+		{
+			"id": "user-36256",
+			"task": "Learn css"
+		},
+		{
+			"id": "user-323562",
+			"task": "Read tailwind docs"
+		},
+		{
+			"id": "user-3126",
+			"task": "Do some project"
+		},
+		{
+			"id": "user-84374",
+			"task": "Try graphql"
+		},
+		{
+			"id": "user-3526",
+			"task": "Build DnD Apps"
+		},
+		{
+			"id": "user-1226",
+			"task": "Build Nextjs Apps"
+		}
+	],
+	"doing": [],
+	"done": []
+}
