@@ -13,7 +13,7 @@ interface ItemTypes {
 }
 
 const Board = () => {
-	const [items, setItems] = useState<ListItemTypes[]>();
+	const [todo, setTodo] = useState<ListItemTypes[]>();
 	const [doing, setDoing] = useState<ListItemTypes[]>();
 	const [done, setDone] = useState<ListItemTypes[]>();
 
@@ -21,7 +21,7 @@ const Board = () => {
 		fetch("/data.json")
 			.then((res) => res.json() as Promise<ItemTypes>)
 			.then((data) => {
-				setItems(data.todo);
+				setTodo(data.todo);
 				setDoing(data.doing);
 				setDone(data.done);
 			});
@@ -33,18 +33,99 @@ const Board = () => {
 
 	const handleDragEnd = (result: any) => {
 		const { source, destination } = result;
-
 		if (!destination) return;
-		const from = source.index;
-		const to = destination.index;
+		const droppableFrom = source.droppableId;
+		const droppableDestination = destination.droppableId;
+		const fromIndex = source.index;
+		const toIndex = destination.index;
 
-		const existingItems = items;
-		// remove dragged item from items array
-		const removeItem: any = existingItems?.splice(from, 1);
-		// add dragged item to destination in items array
-		existingItems?.splice(to, 0, removeItem[0]);
-		// set new updated array
-		setItems(existingItems);
+		if (droppableDestination === "droppable-1") {
+			if (droppableFrom === "droppable-1") {
+				const existingTodo = todo;
+
+				// remove dragged item from items array
+				const removeItem: any = existingTodo?.splice(fromIndex, 1);
+
+				// add dragged item to destination in items array
+				existingTodo?.splice(toIndex, 0, removeItem[0]);
+
+				// set new updated array
+				setTodo(existingTodo);
+
+			} else if (droppableFrom === "droppable-2") {
+				const existingTodo = todo
+				const existingDoing = doing;
+				
+				const removeItem: any = existingDoing?.splice(fromIndex, 1);
+				existingTodo?.splice(toIndex, 0, removeItem[0]);
+				
+				setDoing(existingDoing);
+				setTodo(existingTodo);
+			} else {
+				const existingDone = done;
+				const existingTodo = todo;
+
+				const removeItem: any = existingDone?.splice(fromIndex, 1);
+				existingTodo?.splice(toIndex, 0, removeItem[0]);
+
+				setDone(existingDone);
+				setTodo(existingTodo);
+			}
+		} else if (droppableDestination === "droppable-2") {
+			if (droppableFrom === "droppable-1") {
+				const existingTodo = todo;
+				const existingDoing = doing;
+
+				const removeItem: any = existingTodo?.splice(fromIndex, 1);
+				existingDoing?.splice(toIndex, 0, removeItem[0])
+
+				setTodo(existingTodo);
+				setDoing(existingDoing);
+			} else if (droppableFrom === "droppable-2") {
+				const existingDoing = doing;
+				const removeItem: any = existingDoing?.splice(fromIndex, 1);
+	
+				existingDoing?.splice(toIndex, 0, removeItem[0]);
+				
+				setDoing(existingDoing);
+			} else {
+				const existingDone = done;
+				const existingDoing = doing;
+
+				const removeItem: any = existingDone?.splice(fromIndex, 1);
+				existingDoing?.splice(toIndex, 0, removeItem[0]);
+
+				setDone(existingDone);
+				setDoing(existingDoing);
+			}
+		} else {
+			if (droppableFrom === "droppable-1") {
+				const existingTodo = todo;
+				const existingDone = done;
+
+				const removeItem: any = existingTodo?.splice(fromIndex, 1);
+				existingDone?.splice(toIndex, 0, removeItem[0])
+
+				setTodo(existingTodo);
+				setDone(existingDone);
+			} else if (droppableFrom === "droppable-3") {
+				const existingDone = done;
+				const removeItem: any = existingDone?.splice(fromIndex, 1);
+	
+				existingDone?.splice(toIndex, 0, removeItem[0]);
+				
+				setDone(existingDone);
+			} else {
+				const existingDone = done;
+				const existingDoing = doing;
+
+				const removeItem: any = existingDoing?.splice(fromIndex, 1);
+				existingDone?.splice(toIndex, 0, removeItem[0]);
+
+				setDone(existingDone);
+				setDoing(existingDoing);
+			}
+		}
 	};
 
 	return (
@@ -68,7 +149,7 @@ const Board = () => {
 									<div className="board-title text-center font-bold py-4">
 										TODO
 									</div>
-									{items?.map((item, idx) => (
+									{todo?.map((item, idx) => (
 										<Draggable
 											key={item.id}
 											draggableId={item.id}
