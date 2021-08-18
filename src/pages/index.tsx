@@ -28,7 +28,15 @@ const Board = () => {
 	}, []);
 
 	const addStyle = (isDraggingOver: boolean) => ({
-		background: isDraggingOver ? "#98c3f9" : "",
+		background: isDraggingOver ? "#f99b9b" : "",
+	});
+
+	const addDoingStyle = (isDraggingOver: boolean) => ({
+		background: isDraggingOver ? "#66f9b5" : "",
+	});
+
+	const addDoneStyle = (isDraggingOver: boolean) => ({
+		background: isDraggingOver ? "#88bcfd" : "",
 	});
 
 	const handleDragEnd = (result: any) => {
@@ -51,14 +59,13 @@ const Board = () => {
 
 				// set new updated array
 				setTodo(existingTodo);
-
 			} else if (droppableFrom === "droppable-2") {
-				const existingTodo = todo
+				const existingTodo = todo;
 				const existingDoing = doing;
-				
+
 				const removeItem: any = existingDoing?.splice(fromIndex, 1);
 				existingTodo?.splice(toIndex, 0, removeItem[0]);
-				
+
 				setDoing(existingDoing);
 				setTodo(existingTodo);
 			} else {
@@ -77,16 +84,16 @@ const Board = () => {
 				const existingDoing = doing;
 
 				const removeItem: any = existingTodo?.splice(fromIndex, 1);
-				existingDoing?.splice(toIndex, 0, removeItem[0])
+				existingDoing?.splice(toIndex, 0, removeItem[0]);
 
 				setTodo(existingTodo);
 				setDoing(existingDoing);
 			} else if (droppableFrom === "droppable-2") {
 				const existingDoing = doing;
 				const removeItem: any = existingDoing?.splice(fromIndex, 1);
-	
+
 				existingDoing?.splice(toIndex, 0, removeItem[0]);
-				
+
 				setDoing(existingDoing);
 			} else {
 				const existingDone = done;
@@ -104,16 +111,16 @@ const Board = () => {
 				const existingDone = done;
 
 				const removeItem: any = existingTodo?.splice(fromIndex, 1);
-				existingDone?.splice(toIndex, 0, removeItem[0])
+				existingDone?.splice(toIndex, 0, removeItem[0]);
 
 				setTodo(existingTodo);
 				setDone(existingDone);
 			} else if (droppableFrom === "droppable-3") {
 				const existingDone = done;
 				const removeItem: any = existingDone?.splice(fromIndex, 1);
-	
+
 				existingDone?.splice(toIndex, 0, removeItem[0]);
-				
+
 				setDone(existingDone);
 			} else {
 				const existingDone = done;
@@ -142,11 +149,11 @@ const Board = () => {
 						<Droppable droppableId="droppable-1">
 							{(provided, snapshot) => (
 								<div
-									className="bg-blue-200 w-full px-4 py-0 pb-6 rounded-sm"
+									className="bg-red-200 w-full px-4 py-0 pb-6 rounded-sm"
 									ref={provided.innerRef}
 									style={addStyle(snapshot.isDraggingOver)}
 								>
-									<div className="board-title text-center font-bold py-4">
+									<div className="board-title text-gray-500 text-center font-bold py-4">
 										TODO
 									</div>
 									{todo?.map((item, idx) => (
@@ -176,11 +183,11 @@ const Board = () => {
 						<Droppable droppableId="droppable-2">
 							{(provided, snapshot) => (
 								<div
-									className="bg-blue-200 w-full px-4 py-0 pb-6 rounded-sm"
+									className="bg-green-200 w-full px-4 py-0 pb-6 rounded-sm"
 									ref={provided.innerRef}
-									style={addStyle(snapshot.isDraggingOver)}
+									style={addDoingStyle(snapshot.isDraggingOver)}
 								>
-									<div className="board-title text-center font-bold py-4">
+									<div className="board-title text-gray-500 text-center font-bold py-4">
 										DOING
 									</div>
 									{doing?.map((item, idx) => (
@@ -212,9 +219,9 @@ const Board = () => {
 								<div
 									className="bg-blue-200 w-full px-4 py-0 pb-6 rounded-sm"
 									ref={provided.innerRef}
-									style={addStyle(snapshot.isDraggingOver)}
+									style={addDoneStyle(snapshot.isDraggingOver)}
 								>
-									<div className="board-title text-center font-bold py-4">
+									<div className="board-title text-gray-500 text-center font-bold py-4">
 										DONE
 									</div>
 									{done?.map((item, idx) => (
